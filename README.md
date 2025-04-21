@@ -29,6 +29,7 @@ the test suite whenever you save new changes.
 ```bash
 $ lein test-refresh
 ```
+
 ## Running the clojurescript tests
 
 First, make sure you haev node 23 or greater.
@@ -105,7 +106,7 @@ bb new-test clojure.string/includes?
 
 The test file will look like the following:
 
-```
+```clojure
 (ns clojure.core-test.foo
   (:require [clojure.test :as t :refer [deftest testing is are]]
             [clojure.core-test.portability #?(:cljs :refer-macros :default :refer)  [when-var-exists]]))
@@ -143,4 +144,3 @@ The complete set of conversions of characters to names is:
 - ">" -> "gt"
 - "=" -> "eq"
 - "%" -> "percent"))
-
