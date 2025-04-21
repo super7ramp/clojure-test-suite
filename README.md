@@ -96,12 +96,14 @@ would type:
 
 ```bash
 bb new-test clojure.core/foo
-;; or
+# or
 bb new-test foo
+
+# For other clojure namespaces, specify the ns, like:
+bb new-test clojure.string/includes?
 ```
 
-will create a new file named `foo.cljc` in the test namespace. The
-test file will look like the following:
+The test file will look like the following:
 
 ```
 (ns clojure.core-test.foo
@@ -123,7 +125,7 @@ test file will look like the following:
 Simply fill in test assertions and you're off and running.
 
 Note: `new-test` takes care of converting various characters that
-might be problematic in file names to expanded versions. For instance
+might be problematic in file names to expanded versions. For instance,
 "?" is converted to "qmark" and "*" is converted to
 "star". Thus, you should always provide the name of the `clojure.core`
 symbol you want to test, not the file name or other name. You may need
