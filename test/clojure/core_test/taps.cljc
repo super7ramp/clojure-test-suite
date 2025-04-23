@@ -3,9 +3,7 @@
             #?(:cljs [cljs.test :refer-macros [async]])
             [clojure.core-test.portability #?(:cljs :refer-macros :default :refer)  [when-var-exists]]))
 
-; TODO: These are disabled for now, since there is a race in here which causes failures.
-; See here: https://github.com/jank-lang/clojure-test-suite/issues/15
-#_(when-var-exists clojure.core/add-tap
+(when-var-exists clojure.core/add-tap
   #?(:cljs
      (do
        (defn tap-tester
