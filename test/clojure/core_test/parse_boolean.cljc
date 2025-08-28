@@ -24,24 +24,34 @@
            nil   " true"
            nil   "tr ue"
            nil   "true "))
-    
+
     (testing "exceptions"
       #?(:clj (are [x] (thrown? Exception (parse-boolean x))
                    nil
                    0
                    0.0
-                   \a 
+                   \a
                    :key
                    {}
                    '()
                    #{}
-                   []))
-      #?(:cljs (are [x] (thrown? js/Error (parse-boolean x))
-                   nil
-                   0
-                   0.0
-                   :key
-                   {}
-                   '()
-                   #{}
-                   [])))))
+                   [])
+         :cljr (are [x] (thrown? Exception (parse-boolean x))
+                    nil
+                    0
+                    0.0
+                    \a
+                    :key
+                    {}
+                    '()
+                    #{}
+                    [])
+         :cljs (are [x] (thrown? js/Error (parse-boolean x))
+                    nil
+                    0
+                    0.0
+                    :key
+                    {}
+                    '()
+                    #{}
+                    [])))))
