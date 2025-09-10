@@ -52,6 +52,17 @@ Once tests are compiled they can be ran with:
 node target/js/node-tests.js
 ```
 
+## Running the ClojureCLR tests
+
+### Pre-requisites
+- [dotnet](https://dotnet.microsoft.com/en-us/download)
+- `ClojureCLR`: `dotnet tool install --global Clojure.Main --version 1.12.2`
+- `cljr`: `dotnet tool install --global Clojure.Cljr --version 0.1.0-alpha6`
+
+```bash
+cljr -X:test
+```
+
 ### Automated test running during development
 
 If you want to autorun the tests during development run the following:
