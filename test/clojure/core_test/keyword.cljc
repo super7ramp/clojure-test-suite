@@ -79,10 +79,11 @@
     (is (nil? (keyword nil)))     ; (keyword nil) => nil, surprisingly
     (is (= :abc (keyword nil "abc"))) ; If ns is nil, we just ignore it.
     (is (nil? (namespace (keyword nil "hi"))))
-    (is (= "" (namespace (keyword "" "hi"))))
+    (is (= #?(:jank nil :default "") (namespace (keyword "" "hi"))))
     ;; But if name is nil, then maybe we throw or maybe we don't
     #?(:cljs nil         ; CLJS creates a keyword that isn't
                          ; readable (symbol part is null string: ":abc/")
+       :jank nil
        :default
        (is (thrown? #?(:clj Exception :cljr Exception) (keyword "abc" nil))))
   
@@ -102,7 +103,8 @@
          (is (thrown? #?(:cljr Exception) (keyword "abc" 'abc)))
          (is (thrown? #?(:cljr Exception) (keyword :abc "abc")))
          (is (thrown? #?(:cljr Exception) (keyword "abc" :abc)))]
-        :default ; + :jank
+        :jank []
+        :default
         ;; IMO, CLJS gets this right
         [(is (= :abc/abc (keyword 'abc "abc")))
          (is (= :abc/abc (keyword "abc" 'abc)))
