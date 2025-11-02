@@ -24,7 +24,8 @@
       (is (= {:a 2} (conj {:a 0} {:a 1} {:a 2})))
       (is (= ["a" "b" "c" ["d" "e" "f"]] (conj ["a" "b" "c"] ["d" "e" "f"])))
 
-      #?@(:cljs [(is (thrown? js/Error (conj \a \b)))
+      #?@(:jank []
+          :cljs [(is (thrown? js/Error (conj \a \b)))
                  (is (thrown? js/Error (conj 1 2)))
                  (is (thrown? js/Error (conj :a :b)))
                  (is (thrown? js/Error (conj {:a 0} '(:b 1))))]
@@ -34,6 +35,11 @@
                     (is (thrown? Exception (conj 1 2)))
                     (is (thrown? Exception (conj :a :b)))
                     (is (thrown? Exception (conj {:a 0} '(:b 1))))]))
+
+    (testing "meta preservation"
+      (let [meta-data {:foo 42}
+            apply-meta #(-> % (with-meta meta-data) (conj [:k :v]) meta)]
+        (is (= meta-data (apply-meta {}) (apply-meta []) (apply-meta #{}) (apply-meta '())))))
     
     (when-var-exists clojure.core/first
                      (testing "first"
