@@ -26,6 +26,7 @@
     (is (= -9223372036854775809N (dec (bigint r/min-int)) (dec' r/min-int)))
 
     #?@(:cljs []
+        :jank []
         :default
         [(is (instance? clojure.lang.BigInt (bigint 0)))
          (is (instance? clojure.lang.BigInt (bigint 0.0)))
