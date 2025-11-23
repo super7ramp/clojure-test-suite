@@ -1,9 +1,9 @@
 (ns clojure.core-test.double-qmark
-  (:require [clojure.test :as t :refer [deftest testing is are]]
+  (:require [clojure.test :as t :refer [are deftest]]
             [clojure.core-test.number-range :as r]
-            [clojure.core-test.portability #?(:cljs :refer-macros :default :refer)  [when-var-exists]]))
+            [clojure.core-test.portability #?(:cljs :refer-macros :default :refer) [when-var-exists]]))
 
-(when-var-exists clojure.core/double?
+(when-var-exists double?
   (deftest test-double?
     (are [expected x] (= expected (double? x))
          #?@(:cljs
@@ -58,11 +58,12 @@
               false 0.0M
               false 1.0M
               false -1.0M])
-      #?@(:cljs []                      ; CLJS doesn't have ratios
+      #?@(:cljs [] ; CLJS doesn't have ratios
           :default
           [false 0/2
            false 1/2
-           false -1/2])     false nil
+           false -1/2])
+      false nil
       false true
       false false
       false "a string"

@@ -1,8 +1,8 @@
 (ns clojure.core-test.remove-watch
-  (:require [clojure.test :as t :refer [deftest testing is are]]
-            [clojure.core-test.portability #?(:cljs :refer-macros :default :refer)  [when-var-exists]]))
+  (:require [clojure.test :as t :refer [deftest is testing]]
+            [clojure.core-test.portability #?(:cljs :refer-macros :default :refer) [when-var-exists]]))
 
-(when-var-exists clojure.core/remove-watch
+(when-var-exists remove-watch
   (deftest test-remove-watch
     (testing "remove watch atoms"
       (let [messages (volatile! #{})
@@ -48,7 +48,9 @@
                            {:key :key2 :ref watchable :old 0 :new 1 :watcher :watcher2}
                            {:key :key2 :ref watchable :old 1 :new 2 :watcher :watcher2}}))))
 
-    #?(:cljs nil
+    #?(:cljs
+       nil
+
        :default
        (testing "remove watch vars"
          (def watchable 0)
@@ -95,7 +97,9 @@
                               {:key :key2 :ref #'watchable :old 0 :new 1 :watcher :watcher2}
                               {:key :key2 :ref #'watchable :old 1 :new 2 :watcher :watcher2}})))))
 
-    #?(:cljs nil
+    #?(:cljs
+       nil
+
        :default
        (testing "remove watch refs"
          (let [messages (volatile! #{})
@@ -139,7 +143,9 @@
                               {:key :key2 :ref watchable :old 0 :new 1 :watcher :watcher2}
                               {:key :key2 :ref watchable :old 1 :new 2 :watcher :watcher2}})))))
 
-    #?(:cljs nil
+    #?(:cljs
+       nil
+
        :default
        (testing "remove watch refs"
          (let [messages (volatile! #{})

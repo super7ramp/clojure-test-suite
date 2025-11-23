@@ -1,5 +1,5 @@
 (ns clojure.core-test.when
-  (:require [clojure.test :as t :refer [deftest testing is are]]
+  (:require [clojure.test :as t :refer [deftest is testing]]
             [clojure.core-test.portability #?(:cljs :refer-macros :default :refer) [when-var-exists]]))
 
 (when-var-exists when
@@ -28,7 +28,8 @@
       (is (= :foo (when :haberdashery :foo))))
 
     (testing "`when` has implicit `do`"
-      (is (= :bar (when true :foo :bar)))
+      (is (= :bar
+             (when true :foo :bar)))
       (let [foo (atom 0)]
         (is (= :bar (when true
                       (swap! foo inc)

@@ -1,7 +1,7 @@
 (ns clojure.core-test.minus
-  (:require [clojure.test :as t :refer [deftest testing is are]]
+  (:require [clojure.test :as t :refer [are deftest is testing]]
             [clojure.core-test.number-range :as r]
-            [clojure.core-test.portability #?(:cljs :refer-macros :default :refer)  [when-var-exists]]))
+            [clojure.core-test.portability #?(:cljs :refer-macros :default :refer) [when-var-exists]]))
 
 (when-var-exists clojure.core/-
   (deftest test--
@@ -69,7 +69,7 @@
 
       ;; Zero arg
       #?(:cljs nil
-         :default (is (thrown? #?(:cljs :default :clj Exception  :cljr Exception) (-))))
+         :default (is (thrown? #?(:cljs :default :default Exception) (-))))
 
       ;; Single arg
       (is (= -3 (- 3)))
@@ -104,7 +104,9 @@
            (is (thrown? Exception (- r/max-int -1)))]))
 
 
-    #?(:cljs nil                        ; CLJS doesn't support ratios
+    #?(:cljs
+       nil ; CLJS doesn't support ratios
+
        :default
        (testing "rationals"
          (are [expected x y] (= expected (- x y))
@@ -152,16 +154,16 @@
          (is (thrown? Exception (- nil 1/2)))
          (is (thrown? Exception (- 1/2 nil)))
 
-         (is (- r/max-int -1/2))        ; test that these don't throw
+         (is (- r/max-int -1/2)) ; test that these don't throw
          (is (- r/min-int 1/2))
          (is (= (- r/max-double) (- (- r/max-double) 1/2))) ; should silently round
          (is (= r/max-double (- r/max-double -1/2)))
          (is (= -0.5 (- r/min-double 1/2)))
          (is (= 0.5 (- r/min-double -1/2)))
-         (is (instance? clojure.lang.Ratio (- 0 1/3)))
-         (is (instance? clojure.lang.Ratio (- 0N 1/3)))
-         (is (instance? clojure.lang.Ratio (- 1 1/3)))
-         (is (instance? clojure.lang.Ratio (- 1N 1/3)))
+         (is (ratio? (- 0 1/3)))
+         (is (ratio? (- 0N 1/3)))
+         (is (ratio? (- 1 1/3)))
+         (is (ratio? (- 1N 1/3)))
          ;; Note that we use `double?` here because JVM Clojure uses
          ;; java.lang.Double instead of clojure.lang.Double and we'd
          ;; like to keep this test as generic as possible.
