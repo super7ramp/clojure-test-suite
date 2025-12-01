@@ -5,11 +5,12 @@
 (when-var-exists defonce
   (deftest test-defonce
 
-    (testing "defining var only once"
-      (is (some? (defonce one 1)))
-      (is (nil? (defonce one 2)))
-      (is (nil? (defonce one (assert false "should not be evaluated"))))
-      (is (= 1 one)))
+    #?(:cljs    "shadow-cljs treats defonce like def (https://github.com/thheller/shadow-cljs/issues/1185)"
+       :default (testing "defining var only once"
+                  (is (some? (defonce one 1)))
+                  (is (nil? (defonce one 2)))
+                  (is (nil? (defonce one (assert false "should not be evaluated"))))
+                  (is (= 1 one))))
 
     (testing "bad shape"
       (are [name] (thrown? #?(:cljs js/Error :default Exception) (eval '(defonce name nil)))
